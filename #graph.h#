@@ -1,0 +1,18 @@
+typedef struct { 
+	int v; 
+	int w; 
+	int wt;
+} Edge;
+
+/* initialize graph with n vertices.
+Returns 1 if successful, 0 otherwise */
+int GRAPHinit(int n);
+/* add edge to graph.
+ Returns 1 if successful, 0 otherwise */
+int GRAPHinsertE(Edge);
+//Destroy graph
+void GRAPHdestroy();
+/* compute SSSP of graph from vertex s
+Returns distance array or NULL if malloc failed */
+int *SSSP(int s);
+
