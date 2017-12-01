@@ -1,16 +1,17 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include <limits.h>
 #include "graph.h"
 
-typedef struct graphnode{ 
+typedef struct graphnode{
 	int v;
 	int wt;
-	struct graphnode *next; 
+	struct graphnode *next;
 } Node;
 
 typedef struct graph{
-	int V;
-	int E;
+	int V; //number of vertices
+	int E; //number of edges
 	Node **adj;  //array of ptrs to linked lists
 }Graph;
 
@@ -22,7 +23,7 @@ int GRAPHinit(int V){
 		return 0;
 	G->V = V;
 	G->E = 0;
-	G->adj = calloc(V, sizeof(Node *));
+	G->adj = calloc(V, sizeof(Node *));;
 	if(G->adj == NULL){
 		free(G);
 		return 0;
@@ -103,4 +104,60 @@ int *SSSP(int s){
 		}
   }
   return D;
+}
+
+int GRAPHpath(int v, int w, int visited[]){
+	if(v == w){
+		return 1;
+	}
+	visited[v] = 1;
+	for(Node *t = G->adj[v]; t!= NULL; t = t->next){
+		if((visited[t -> v] != 1) && (GRAPHpath(t -> v, w, visited) == 1)){
+				printf("%d-%d ", t -> v , v);
+				return 1;
+		}
+	}
+	return 0;
+}
+
+int GRAPHpathHelp(int v1, int w1){
+	int * visitArr = calloc((G -> V), sizeof(int));
+	return GRAPHpath(v1 , w1, visitArr);
+}
+/*
+void GRAPHprint(FILE *f){
+
+}
+*/
+
+int main(int argc, char ** argv){
+	if(GRAPHinit(4) == 1){
+		printf("Graph initialized\n");
+	}
+	Edge * e1 = malloc(sizeof(Edge));
+	e1 -> v = 0;
+	e1 -> w = 1;
+	e1 -> wt = 1;
+	Edge * e2 = malloc(sizeof(Edge));
+	e2 -> v = 1;
+	e2 -> w = 2;
+	e2 -> wt = 1;
+	Edge * e3 = malloc(sizeof(Edge));
+	e3 -> v = 2;
+	e3 -> w = 3;
+	e3 -> wt = 1;
+	if(GRAPHinsertE(*e1) == 1){
+		printf("Edge 1 entered.\n");
+	}
+	if(GRAPHinsertE(*e2) == 1){
+		printf("Edge 2 entered.\n");
+	}
+	if(GRAPHinsertE(*e3) == 1){
+		printf("Edge 3 entered.\n");
+	}
+	if(GRAPHpathHelp(0, 3) == 1){
+		printf("It works\n");
+	}
+	GRAPHdestroy();
+
 }
